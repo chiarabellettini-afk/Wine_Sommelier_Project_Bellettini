@@ -106,9 +106,8 @@ vintage_corr = analyze_vintage_correlation(ratings)
 #MENÙ
 tabs = ["Home", "Search by Wine", "Add Wine", "analytics"]
 tab1, tab2, tab3, tab4 = st.tabs(tabs) 
-#I choose this tab method instead of the one we used in class only because of aestetic preferences
 
-with tab1: #HOME
+with tab1:
 
     st.subheader("Search pairings by food:")
     selected_food = st.selectbox("Select food", all_food)
@@ -120,7 +119,7 @@ with tab1: #HOME
     st.subheader("Complete list of wines:")
     st.dataframe(wines, column_config=build_config(wines, "fav2"), column_order=col, hide_index=True)
 
-with tab2: #Suggest foods (especially useful for custom wines)
+with tab2:
     all_wines = load_wine_list(wines)
     selected_wine = st.selectbox("Select wine", all_wines)
 
@@ -137,7 +136,6 @@ with tab2: #Suggest foods (especially useful for custom wines)
 
     _, food_count = suggest_food(wines, wines.loc[wines["WineName"] == selected_wine, "Type"].iloc[0], wines.loc[wines["WineName"] == selected_wine, "Body"].iloc[0], 100)
 
-    # Convert Counter to a DataFrame for charting
     pairings_chart = (pd.DataFrame(food_count.most_common(), columns=["Food", "Count"]).sort_values("Count", ascending=False)) #
     pairings_chart["Food"] = pd.Categorical(pairings_chart["Food"], categories=pairings_chart["Food"], ordered=True)
     
@@ -153,7 +151,6 @@ with tab2: #Suggest foods (especially useful for custom wines)
     st.plotly_chart(fig, use_container_width=True)
 
 with tab3:
-    #ADDING CUSTOM WINE
     st.subheader("Add a custom wine:")
     new_name = st.text_input("Wine name:")
     new_type = st.selectbox("Wine type:", w_type)
@@ -163,7 +160,7 @@ with tab3:
     if st.button("Add"):
         custom_list = load_custom_list(user_info)
         if new_name not in custom_list:
-            suggested_food, _ = suggest_food(wines, new_type, new_body, 5) #the algorithm
+            suggested_food, _ = suggest_food(wines, new_type, new_body, 5)
             new_wine = {"WineID": new_ID, "WineName": new_name, "Type": new_type, "Body": new_body, "Harmonize": str(suggested_food)}
             if "Custom_wine" not in user_info:
                 user_info["Custom_wine"] = []
@@ -179,23 +176,17 @@ with tab3:
         else:
             st.warning("Name already in use, please choose another name")
 
-    #DELETING CUSTOM WINE
     st.subheader("Delete a custom wine:")
-    custom_list = load_custom_list(user_info) #Getting the list of custom wines
+    custom_list = load_custom_list(user_info) 
     to_delete = st.selectbox('Select wine to delete', custom_list)
     if custom_list:
         if st.button("Delete custom wine"):
-            # Filter out the selected wine by its WineName
             user_info["Custom_wine"] = [
                 wine
                 for wine in user_info["Custom_wine"]
-                if wine["WineName"] != to_delete
-            ]
-
-            # Save the updated dictionary back to the json file
+                if wine["WineName"] != to_delete]
             with open(user_info_path, "w") as f:
                 json.dump(user_info, f, indent=4)
-
             st.toast(f"Successfully deleted {to_delete}!")
             st.rerun()
     else:
