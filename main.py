@@ -19,14 +19,14 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 # os.path.abspath(__file__) turns that into the full path of your script
 user_info_path = os.path.join(script_dir, "user_info.json")
 
-ratings_path = os.path.join(script_dir, "X-Wines-main", "Dataset", "last", "XWines_Test_1K_ratings.csv")
+ratings_path = os.path.join(script_dir, "data", "XWines_Test_1K_ratings.csv")
 if os.path.exists(ratings_path):
     ratings = pd.read_csv(ratings_path)
 else: #to avoid crashes if the file is not found
     st.error("Rating database not found")
     st.stop()
 
-wines_path = os.path.join(script_dir, "X-Wines-main", "Dataset", "last", "XWines_Test_100_wines.csv")
+wines_path = os.path.join(script_dir, "data", "XWines_Test_100_wines.csv")
 if os.path.exists(wines_path):
     wines_raw = pd.read_csv(wines_path)
 else:
