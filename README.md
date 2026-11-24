@@ -53,7 +53,7 @@ You need Python 3 and Git installed. The commands below are for macOS or Linux; 
 From the root folder of the project, with the virtual environment active:
 
 ```bash
-streamlit run main.py
+streamlit run app.py
 ```
 
 The app opens in your browser at `http://localhost:8501`. Press `Ctrl + C` in the terminal to stop it.
