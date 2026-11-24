@@ -5,8 +5,9 @@ import pandas as pd
 import ast
 import os
 import json
-from collections import Counter
 import plotly.express as px
+
+from wine_sommelier.pairing import suggest_food
 
 #Aesthetics
 st.set_page_config(page_title="Wine Sommelier", page_icon="🍷", layout="wide") #, layout=None, initial_sidebar_state=None, menu_items=None
@@ -105,16 +106,7 @@ def toggle_fav(df, key):
 def load_wine_list(w):
     return w["WineName"].dropna().unique().tolist()
 
-def suggest_food(w, w_type, w_body, n):
-    w = w[w["Harmonize"] != "N/A"]
-    match = w[(w["Type"] == w_type) & (w["Body"] == w_body)] #we keep only the wines with the same type AND the same body
-    if match.empty:#if no wine has this exact combination we widen the search to the type only
-        match = w[w["Type"] == w_type]
-    all_pairings = match["Harmonize"].apply(ast.literal_eval).explode().tolist() 
-    food_count = Counter(all_pairings) #Counter creates a dictionary like {"Beef": 12, "Cheese": 7, ...} counting how many times each food appears
-    most_common = food_count.most_common(n) #returns the top_n couples (food, count), sorted from the most to the least frequent
-    top_foods = [food for food, _ in food_count.most_common(n)]
-    return top_foods, food_count #we keep only the food names and drop the counts
+
 
 wines = load_wine(wines_raw, user_info)
 
