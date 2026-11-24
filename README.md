@@ -19,8 +19,8 @@ Your favorites and custom wines are stored locally in `user_info.json`. This fil
 | `streamlit` (1.67.0) | web app interface |
 | `pandas` (3.1.1) | loading and manipulating the data |
 | `plotly` (7.1.0) | interactive bar chart |
-| `numpy` | 2.5.5 | Array manipulation and standard deviation/percentile calculations |
-| `scipy` | 1.18.1 | Statistical calculations ($t$-distribution CIs and Spearman rank correlation) |
+| `numpy`  (2.5.5) | Array manipulation and standard deviation/percentile calculations |
+| `scipy`  (1.18.1) | Statistical calculations ($t$-distribution CIs and Spearman rank correlation) |
 
 The exact versions are listed in `requirements.txt`. The modules `ast`, `os`, `json` and `collections` are part of the Python standard library.
 
