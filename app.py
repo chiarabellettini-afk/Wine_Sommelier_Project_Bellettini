@@ -6,6 +6,7 @@ import json
 import plotly.express as px
 
 from wine_sommelier.pairing import suggest_food
+from wine_sommelier.rating_analytics import analyze_vintage_correlation, compute_wine_rating_stats
 
 #Aesthetics
 st.set_page_config(page_title="Wine Sommelier", page_icon="🍷", layout="wide")
@@ -98,9 +99,13 @@ def load_wine_list(w):
 
 wines = load_wine(wines_raw, user_info)
 
+wine_stats = compute_wine_rating_stats(ratings)
+wines = wines.merge(wine_stats, on="WineID", how="left")
+vintage_corr = analyze_vintage_correlation(ratings)
+
 #MENÙ
-tabs = ["Home", "Search by Wine", "Add Wine"]
-tab1, tab2, tab3 = st.tabs(tabs) 
+tabs = ["Home", "Search by Wine", "Add Wine", "analytics"]
+tab1, tab2, tab3, tab4 = st.tabs(tabs) 
 #I choose this tab method instead of the one we used in class only because of aestetic preferences
 
 with tab1: #HOME
@@ -195,3 +200,14 @@ with tab3:
             st.rerun()
     else:
         st.info("No custom wines available to delete yet.")
+
+with tab4:
+    with st.expander("Rating & Vintage Statistical Insights"):
+        st.write(
+            f"Vintage vs. Rating Spearman $\\rho$: **{vintage_corr['rho']:.3f}** "
+            f"(p-value: **{vintage_corr['p_value']:.4f}**, n = {vintage_corr['n']})"
+        )
+        st.dataframe(
+            wines[["WineName", "rating_count", "mean_rating", "bayesian_score", "ci_low", "ci_high"]].dropna(subset=["bayesian_score"]),
+            hide_index=True,
+        )
