@@ -1,5 +1,3 @@
-#LIBRARIES
-
 import streamlit as st
 import pandas as pd
 import ast
@@ -10,20 +8,19 @@ import plotly.express as px
 from wine_sommelier.pairing import suggest_food
 
 #Aesthetics
-st.set_page_config(page_title="Wine Sommelier", page_icon="🍷", layout="wide") #, layout=None, initial_sidebar_state=None, menu_items=None
+st.set_page_config(page_title="Wine Sommelier", page_icon="🍷", layout="wide")
 st.title("Wine Sommelier")
 st.write("A web app to suggest wine pairing based on the food")
 
-##IMPORT DATA
+"""Data loading and user storage helpers for the Wine Sommelier app."""
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-# os.path.abspath(__file__) turns that into the full path of your script
 user_info_path = os.path.join(script_dir, "user_info.json")
 
 ratings_path = os.path.join(script_dir, "data", "XWines_Test_1K_ratings.csv")
 if os.path.exists(ratings_path):
     ratings = pd.read_csv(ratings_path)
-else: #to avoid crashes if the file is not found
+else:
     st.error("Rating database not found")
     st.stop()
 
@@ -34,25 +31,17 @@ else:
     st.error("Wine database not found")
     st.stop()
 
-#wines["Favorites"] = False
-
 bodies = wines_raw["Body"].dropna().unique().tolist()
 w_type = wines_raw["Type"].dropna().unique().tolist()
 all_food = wines_raw["Harmonize"].dropna().apply(ast.literal_eval).explode().unique().tolist()
-#.apply(ast.literal_eval) > converts the values in the harmonize column into true python list
-#.explode > separate the list into single values
-#tolist > transform into a list
 
 col = ["Btn", "WineName", "Type", "Body"]
 
-#load custom wine data
 if os.path.exists(user_info_path): 
-    #we are checking if there is already a file to store the custom wines, if not we are going to create it
     try:
-        with open(user_info_path) as f: #let's open the file and call it f temporarily
-            user_info = json.load(f) #let's create a dictionary called user_info that will contain all the info about the user, both custom wines and favorites
+        with open(user_info_path) as f: 
+            user_info = json.load(f) 
     except (json.JSONDecodeError, ValueError):
-        # Handles corrupt json files:
         user_info = {"Custom_wine": [], "Favorites": []}
         st.warning("The user info file was corrupted. Please discard all the data and reset the file.")
         if st.button("Reset file"):
@@ -60,30 +49,29 @@ if os.path.exists(user_info_path):
                 json.dump(user_info, f, indent=4)
             st.rerun()
 else:
-    user_info = {"Custom_wine": [], "Favorites": []} #since it does not already exist, we are creating the structure to save the custom wines
+    user_info = {"Custom_wine": [], "Favorites": []}
     with open(user_info_path, "w") as w:
-        json.dump(user_info, w) #we are putting the blank dictionary user_info inside the open file w
+        json.dump(user_info, w)
 
 def load_wine(w, u_info):
-    #add custom wines to dataframe. To avoid duplicates, we are using the original wine database and the info from the user json file
+    """Combine base wine data with custom wines and favorite indicators."""
     custom_wine = u_info["Custom_wine"]
     custom_wine_df = pd.DataFrame(custom_wine)
-    w = pd.concat([wines_raw, custom_wine_df], ignore_index=True) #we want the new wine to follow the index of the main dataset it's added to
-
-    #Adding info about favorites to the dataframe
+    w = pd.concat([wines_raw, custom_wine_df], ignore_index=True) 
     fav_list = u_info.get("Favorites", [])
-    w["Btn"] = w["WineID"].isin(u_info.get("Favorites", [])).apply(lambda x: "⭐" if x else "☆") #full star if the WineID is in the json list, empty star if not
-    return w #this is returning the wine database updated with all the user info
+    w["Btn"] = w["WineID"].isin(u_info.get("Favorites", [])).apply(lambda x: "⭐" if x else "☆")
+    return w
 
 def build_config(df, key):
     return{"WineName": st.column_config.TextColumn("WineName"),
            "Btn": st.column_config.ButtonColumn(" ", on_click=toggle_fav, args=(df, key), key= key)}
 
 def load_custom_list(u_info):
-    custom_wine = u_info["Custom_wine"] #this is a dictionary
+    """Return a list of custom wine names from user info."""
+    custom_wine = u_info["Custom_wine"]
     if not custom_wine:
         return []
-    custom_wine_df = pd.DataFrame(custom_wine) #this is now a dataframe
+    custom_wine_df = pd.DataFrame(custom_wine)
     try:
         all_custom = custom_wine_df["WineName"].dropna().tolist()
     except:
@@ -92,9 +80,10 @@ def load_custom_list(u_info):
     return all_custom
 
 def toggle_fav(df, key):
-    wine_id = int(df.iloc[st.session_state[key]["row"]]["WineID"]) #WineID of the clicked row saved in int
+    """Toggle a wine's favorite status in the user JSON file based on the clicked row."""
+    wine_id = int(df.iloc[st.session_state[key]["row"]]["WineID"])
     with open (user_info_path) as f:
-        info = json.load(f) #we reload the file to work on the latest data
+        info = json.load(f)
     favs = info.setdefault("Favorites", [])
     if wine_id in favs:
         favs.remove(wine_id)
@@ -104,9 +93,8 @@ def toggle_fav(df, key):
         json.dump(info, f, indent=4)
 
 def load_wine_list(w):
+    """Return a list of unique wine names from a wine DataFrame."""
     return w["WineName"].dropna().unique().tolist()
-
-
 
 wines = load_wine(wines_raw, user_info)
 
