@@ -19,6 +19,8 @@ Your favorites and custom wines are stored locally in `user_info.json`. This fil
 | `streamlit` (1.67.0) | web app interface |
 | `pandas` (3.1.1) | loading and manipulating the data |
 | `plotly` (7.1.0) | interactive bar chart |
+| `numpy` | 2.5.5 | Array manipulation and standard deviation/percentile calculations |
+| `scipy` | 1.18.1 | Statistical calculations ($t$-distribution CIs and Spearman rank correlation) |
 
 The exact versions are listed in `requirements.txt`. The modules `ast`, `os`, `json` and `collections` are part of the Python standard library.
 
@@ -59,6 +61,21 @@ streamlit run app.py
 The app opens in your browser at `http://localhost:8501`. Press `Ctrl + C` in the terminal to stop it.
 
 ## Project structure
+
+```text
+Wine_Sommelier_Project_Bellettini/
+├── app.py                      # Main Streamlit application
+├── README.md                   # Project documentation
+├── requirements.txt            # Python dependencies and exact versions
+├── user_info.json              # Local user data for custom wines & favorites
+├── wine_sommelier/             # Package containing modular helper functions
+│   ├── __init__.py
+│   ├── pairing.py              # Food pairing recommendation algorithm
+│   └── rating_analytics.py     # Statistical computations (Bayesian scores, t-CIs, correlation)
+└── data/                       # Dataset directory
+    ├── XWines_Test_100_wines.csv
+    └── XWines_Test_1K_ratings.csv
+```
 
 ## Notes
 
