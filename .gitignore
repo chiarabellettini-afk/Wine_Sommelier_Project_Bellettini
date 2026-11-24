@@ -221,3 +221,8 @@ __marimo__/
 
 #user_info.json
 user_info.json
+
+# Virtual environments
+.venv/
+venv/
+env/
