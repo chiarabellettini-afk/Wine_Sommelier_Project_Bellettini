@@ -67,8 +67,7 @@ The app opens in your browser at `http://localhost:8501`. Press `Ctrl + C` in th
 
 ## Project structure
 
-```text
-Wine_Sommelier_Project_Bellettini/
+your_project/
 ├── app.py                  # entry point: page config + navigation only
 ├── requirements.txt
 ├── data/
@@ -79,11 +78,10 @@ Wine_Sommelier_Project_Bellettini/
 │   └── analytics.py        # tab4
 └── wine_sommelier/
     ├── __init__.py
-    ├── pairing.py          # (already done)
-    ├── rating_analytics.py # (already done)
-    ├── data_loader.py      # CSV loading, load_wine, load_wine_list
-    └── user_store.py       # JSON read/write, favorites, custom wines
-```
+    ├── pairing.py          # Food pairing recommendation algorithm
+    ├── rating_analytics.py # Project documentation
+    ├── data_loader.py      # NEW: CSV loading, load_wine, load_wine_list
+    └── user_store.py       # NEW: JSON read/write, favorites, custom wines
 
 ## Notes
 
