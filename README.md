@@ -67,9 +67,10 @@ The app opens in your browser at `http://localhost:8501`. Press `Ctrl + C` in th
 
 ## Project structure
 
-your_project/
+```text
+Wine_Sommelier_Project_Bellettini/
 ├── app.py                  # entry point: page config + navigation only
-├── requirements.txt
+├── requirements.txt        # Python dependencies and exact versions
 ├── data/
 ├── pages/
 │   ├── home.py             # tab1: pairings by food
