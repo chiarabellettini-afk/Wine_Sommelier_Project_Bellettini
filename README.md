@@ -15,7 +15,7 @@ This app uses two datasets from the [X-Wines repository](https://github.com/roge
 - `XWines_Test_100_wines.csv`
 - `XWines_Test_1K_ratings.csv`
 
-Download both files and place them in a folder named `data` inside the same directory as `app.py` (i.e., `data/XWines_Test_100_wines.csv` and `data/XWines_Test_1K_ratings.csv`).
+Download both files and place them in a **new** folder that you **must** name `data` inside the same directory as `app.py` (i.e., `data/XWines_Test_100_wines.csv` and `data/XWines_Test_1K_ratings.csv`).
 
 Your favorites and custom wines are stored locally in `user_info.json`. This file is created automatically the first time you run the app and is not tracked by Git, because it contains personal data.
 
