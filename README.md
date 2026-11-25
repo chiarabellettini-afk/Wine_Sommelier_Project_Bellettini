@@ -7,6 +7,7 @@ A Streamlit web app that suggests **wine pairings for a given food**, and **food
 - **Home**: pick a food and see the wines that go well with it, plus the complete list of wines. Click the star (☆ / ⭐) next to a wine to add or remove it from your favorites.
 - **Search by Wine**: pick a wine and see its recommended food pairings, together with a bar chart of the foods most often paired with wines of the same type and body.
 - **Add Wine**: add a custom wine by choosing a name, a type and a body. The app suggests its 5 most likely food pairings by looking at the wines with the same type and body (if none exist, it falls back to wines of the same type). Custom wines can also be deleted.
+- **Analytics**: explore rating statistics for each wine (number of ratings, mean rating, Bayesian weighted score and 95% confidence interval), plus the Spearman correlation between vintage year and rating.
 
 ## Data
 
@@ -55,7 +56,7 @@ You need Python 3 and Git installed. The commands below are for macOS or Linux; 
    pip install -r requirements.txt
    ```
 
-4. Download the dataser:
+4. Download the datasets:
    
    Download `data/XWines_Test_100_wines.csv` and `data/XWines_Test_1K_ratings.csv` from [X-Wines repository](https://github.com/rogerioxavier/X-Wines/tree/main/Dataset/last) and place them in a **new** folder that you **must** name `data` inside the same directory as `app.py` (i.e., `data/XWines_Test_100_wines.csv` and `data/XWines_Test_1K_ratings.csv`).
 
@@ -75,22 +76,19 @@ The app opens in your browser at `http://localhost:8501`. Press `Ctrl + C` in th
 Wine_Sommelier_Project_Bellettini/
 ├── app.py                  # entry point: page config + navigation only
 ├── requirements.txt        # Python dependencies and exact versions
-├── data/
+├── data/                   # datasets (download separately, see Setup)
 ├── pages/
-│   ├── home.py             # tab1: pairings by food
-│   ├── search_by_wine.py   # tab2
-│   ├── add_wine.py         # tab3
-│   └── analytics.py        # tab4
+│   ├── home.py             # pairings by food
+│   ├── search_by_wine.py   # food pairings by wine
+│   ├── add_wine.py         # add / delete custom wines
+│   └── analytics.py        # rating statistics and vintage correlation
 └── wine_sommelier/
     ├── __init__.py
-    ├── pairing.py          # Food pairing recommendation algorithm
-    ├── rating_analytics.py # Project documentation
-    ├── data_loader.py      # NEW: CSV loading, load_wine, load_wine_list
-    └── user_store.py       # NEW: JSON read/write, favorites, custom wines```
-
-## Notes
-
-- If `user_info.json` becomes corrupted, the app shows a warning and a **Reset file** button that restores an empty file (all favorites and custom wines are lost).
+    ├── pairing.py          # food pairing recommendation algorithm
+    ├── rating_analytics.py # rating statistics (CIs, Bayesian score, Spearman)
+    ├── data_loader.py      # CSV loading and building the wine table
+    └── user_store.py       # JSON read/write, favorites, custom wines
+```
 
 ## Author
 
