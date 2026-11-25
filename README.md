@@ -86,7 +86,7 @@ Wine_Sommelier_Project_Bellettini/
     ├── pairing.py          # Food pairing recommendation algorithm
     ├── rating_analytics.py # Project documentation
     ├── data_loader.py      # NEW: CSV loading, load_wine, load_wine_list
-    └── user_store.py       # NEW: JSON read/write, favorites, custom wines
+    └── user_store.py       # NEW: JSON read/write, favorites, custom wines```
 
 ## Notes
 
