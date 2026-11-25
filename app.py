@@ -8,12 +8,9 @@ import plotly.express as px
 from wine_sommelier.pairing import suggest_food
 from wine_sommelier.rating_analytics import analyze_vintage_correlation, compute_wine_rating_stats
 
-#Aesthetics
 st.set_page_config(page_title="Wine Sommelier", page_icon="🍷", layout="wide")
 st.title("Wine Sommelier")
 st.write("A web app to suggest wine pairing based on the food")
-
-"""Data loading and user storage helpers for the Wine Sommelier app."""
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 user_info_path = os.path.join(script_dir, "user_info.json")
@@ -29,8 +26,8 @@ wines_path = os.path.join(script_dir, "data", "XWines_Test_100_wines.csv")
 if os.path.exists(wines_path):
     wines_raw = pd.read_csv(wines_path)
 else:
-    st.error("Wine database not found")
-    st.stop()
+    wines_raw = pd.read_csv("https://github.com/rogerioxavier/X-Wines/tree/main/Dataset/last")
+    
 
 bodies = wines_raw["Body"].dropna().unique().tolist()
 w_type = wines_raw["Type"].dropna().unique().tolist()
@@ -103,8 +100,7 @@ wine_stats = compute_wine_rating_stats(ratings)
 wines = wines.merge(wine_stats, on="WineID", how="left")
 vintage_corr = analyze_vintage_correlation(ratings)
 
-#MENÙ
-tabs = ["Home", "Search by Wine", "Add Wine", "analytics"]
+tabs = ["Home", "Search by Wine", "Add Wine", "Analytics"]
 tab1, tab2, tab3, tab4 = st.tabs(tabs) 
 
 with tab1:
