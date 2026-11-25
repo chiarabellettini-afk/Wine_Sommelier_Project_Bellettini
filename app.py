@@ -33,7 +33,7 @@ bodies = wines_raw["Body"].dropna().unique().tolist()
 w_type = wines_raw["Type"].dropna().unique().tolist()
 all_food = wines_raw["Harmonize"].dropna().apply(ast.literal_eval).explode().unique().tolist()
 
-col = ["Btn", "WineName", "Type", "Body"]
+col = ["Btn", "WineName", "Type", "Body", "Rating"]
 
 if os.path.exists(user_info_path): 
     try:
@@ -56,8 +56,10 @@ def load_wine(w, u_info):
     custom_wine = u_info["Custom_wine"]
     custom_wine_df = pd.DataFrame(custom_wine)
     w = pd.concat([wines_raw, custom_wine_df], ignore_index=True) 
-    fav_list = u_info.get("Favorites", [])
     w["Btn"] = w["WineID"].isin(u_info.get("Favorites", [])).apply(lambda x: "⭐" if x else "☆")
+    mean_df = compute_wine_rating_stats(ratings)[["WineID", "mean_rating"]].rename(
+        columns={"mean_rating": "Rating"})
+    w = w.merge(mean_df, on="WineID", how="left").round(1)
     return w
 
 def build_config(df, key):
