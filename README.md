@@ -69,17 +69,20 @@ The app opens in your browser at `http://localhost:8501`. Press `Ctrl + C` in th
 
 ```text
 Wine_Sommelier_Project_Bellettini/
-├── app.py                      # Main Streamlit application
-├── README.md                   # Project documentation
-├── requirements.txt            # Python dependencies and exact versions
-├── user_info.json              # Local user data for custom wines & favorites
-├── wine_sommelier/             # Package containing modular helper functions
-│   ├── __init__.py
-│   ├── pairing.py              # Food pairing recommendation algorithm
-│   └── rating_analytics.py     # Statistical computations (Bayesian scores, t-CIs, correlation)
-└── data/                       # Dataset directory
-    ├── XWines_Test_100_wines.csv
-    └── XWines_Test_1K_ratings.csv
+├── app.py                  # entry point: page config + navigation only
+├── requirements.txt
+├── data/
+├── pages/
+│   ├── home.py             # tab1: pairings by food
+│   ├── search_by_wine.py   # tab2
+│   ├── add_wine.py         # tab3
+│   └── analytics.py        # tab4
+└── wine_sommelier/
+    ├── __init__.py
+    ├── pairing.py          # (already done)
+    ├── rating_analytics.py # (already done)
+    ├── data_loader.py      # CSV loading, load_wine, load_wine_list
+    └── user_store.py       # JSON read/write, favorites, custom wines
 ```
 
 ## Notes
