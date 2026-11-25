@@ -230,3 +230,6 @@ env/
 # Ignore specific dataset CSVs inside data/
 data/XWines_Test_1K_ratings.csv
 data/XWines_Test_100_wines.csv
+
+#Folder metadata
+.DS_Store
