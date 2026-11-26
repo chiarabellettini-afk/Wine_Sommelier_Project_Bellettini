@@ -11,6 +11,7 @@ A Streamlit web app that suggests **wine pairings for a given food**, and **food
 
 ## Data
 
+
 This app uses two datasets from the [X-Wines repository](https://github.com/rogerioxavier/X-Wines/tree/main/Dataset/last):
 
 - `XWines_Test_100_wines.csv`
@@ -29,6 +30,33 @@ Your favorites and custom wines are stored locally in `user_info.json`. This fil
 | `scipy`  (1.18.1) | Statistical calculations ($t$-distribution CIs and Spearman rank correlation) |
 
 The exact versions are listed in `requirements.txt`. The modules `ast`, `os`, `json` and `collections` are part of the Python standard library.
+
+### Acknowledgments
+
+As required by the X-Wines citation policy, the following
+[paper](https://www.mdpi.com/2504-2289/7/1/20) is cited:
+
+> de Azambuja, R. X., Morais, A. J., & Filipe, V. (2023). X-Wines: A Wine
+> Dataset for Recommender Systems and Machine Learning. *Big Data and
+> Cognitive Computing, 7*(1), Article 20.
+> https://doi.org/10.3390/bdcc7010020
+
+BibTeX:
+
+```bibtex
+@Article{bdcc7010020,
+AUTHOR = {de Azambuja, Rogério Xavier and Morais, A. Jorge and Filipe, Vítor},
+TITLE = {X-Wines: A Wine Dataset for Recommender Systems and Machine Learning},
+JOURNAL = {Big Data and Cognitive Computing},
+VOLUME = {7},
+YEAR = {2023},
+NUMBER = {1},
+ARTICLE-NUMBER = {20},
+URL = {https://www.mdpi.com/2504-2289/7/1/20},
+ISSN = {2504-2289},
+DOI = {10.3390/bdcc7010020}
+}
+```
 
 ## Setup
 
